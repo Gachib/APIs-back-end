@@ -57,7 +57,24 @@ const moviesController = {
     },
     //Aqui debo modificar para crear la funcionalidad requerida
     'buscar': (req, res) => {
-        
+        let buscado = req.body.titulo;
+        fetch(`http://www.omdbapi.com/?s=${buscado}&page=1&apikey=e3726246`)
+        .then(response => response.json())
+        .then(data => {
+            let response = {
+                meta: {
+                    status: 200,
+                    endpoint: `http://www.omdbapi.com/?s=${buscado}&page=1&apikey=e3726246`,
+                },
+                data: data
+            }
+            res.json(response)
+        })
+        .catch(error => {
+            res.status(400).json({
+                error: error
+            })
+        })
     },
     //Aqui dispongo las rutas para trabajar con el CRUD
     add: function (req, res) {
